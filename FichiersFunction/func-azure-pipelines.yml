@@ -13,7 +13,7 @@ steps:
   inputs:
     command: publish
     arguments: '--configuration Release --output publish_output'
-    projects: '*Fichiers*.csproj'
+    projects: '**/Fichiers*.csproj'
     publishWebProjects: false
     modifyOutputPath: false
     zipAfterPublish: false
@@ -33,7 +33,7 @@ steps:
     azureSubscription: $(azureSub)
     appType: 'functionApp'
     appName: $(appName)
-    package: '$(System.DefaultWorkingDirectory)/**/*Fichiers*.zip'
+    package: '$(System.DefaultWorkingDirectory)/**/Fichiers*.zip'
     appSettings: '-FUNCTIONS_WORKER_RUNTIME dotnet-isolated'
     runtimeStack: 'DOTNET-ISOLATED|6.0'
     deploymentMethod: 'runFromPackage'
