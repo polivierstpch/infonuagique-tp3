@@ -1,0 +1,75 @@
+﻿@model AutoRapide.MVC.Models.Vehicule
+
+@{
+    ViewData["Title"] = "Nouveau véhicule";
+}
+
+<h1>Afficher un nouveau véhicule</h1>
+
+<h4>Veuillez remplir les champs ci-dessous:</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Constructeur" class="control-label"></label>
+                <input asp-for="Constructeur" class="form-control" />
+                <span asp-validation-for="Constructeur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Modele" class="control-label"></label>
+                <input asp-for="Modele" class="form-control" />
+                <span asp-validation-for="Modele" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnneeFabrication" class="control-label"></label>
+                <input asp-for="AnneeFabrication" class="form-control" />
+                <span asp-validation-for="AnneeFabrication" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<TypeVehicule>()">
+                    <option value="">Choissez un type de carburation</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreSiege" class="control-label"></label>
+                <input asp-for="NombreSiege" class="form-control" />
+                <span asp-validation-for="NombreSiege" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Couleur" class="control-label"></label>
+                <input asp-for="Couleur" class="form-control" />
+                <span asp-validation-for="Couleur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="fichiers" class="control-label">Choisissez les fichiers à téléverser</label>
+                <input type="file" id="fichiers" name="fichiers" multiple
+                       accept="image/png, image/jpeg" data-val data-val-required="Des fichiers sont requis">
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prix" class="control-label"></label>
+                <input asp-for="Prix" class="form-control" />
+                <span asp-validation-for="Prix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Retour à la liste des véhicules</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

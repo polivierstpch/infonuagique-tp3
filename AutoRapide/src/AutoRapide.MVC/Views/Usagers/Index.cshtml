@@ -1,0 +1,59 @@
+﻿@model IEnumerable<AutoRapide.MVC.Models.Usager>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prenom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adresse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodeUniqueUsager)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adresse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeUniqueUsager)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-code="@item.CodeUniqueUsager">Details</a> |
+                <a asp-action="Modifier" asp-route-code="@item.CodeUniqueUsager">Modifier</a> |
+                <a asp-action="Supprimer" asp-route-code="@item.CodeUniqueUsager">Supprimer</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

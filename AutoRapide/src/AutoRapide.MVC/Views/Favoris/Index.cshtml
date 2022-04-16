@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AutoRapide.MVC.Models.Vehicule>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Faites de vos rêves une réalité avec RapidAuto!</h1>
+
+<h3>
+    Votre liste de véhicules favoris:
+</h3>
+
+
+    @foreach (var item in Model)
+    {
+        <div>
+            <div class="thumbnailVehicule" style="display: inline-block;">
+               
+                    <img id="imgThumb" src="@item.Image1Url" alt="Une erreur est survenue">
+            </div>
+            <div class="resumeVehicule" style="display: inline-block;">
+                <div>
+                    <h5>@item.Description</h5>
+                </div>
+                <div style="display: inline-block;">
+                    <a asp-controller="Vehicules" asp-action="Details" asp-route-id="@item.Id"><button class="btn btn-primary">Accéder à la fiche du véhicule</button></a> 
+                </div>
+            </div>
+        </div>
+            
+    }
+
+
+

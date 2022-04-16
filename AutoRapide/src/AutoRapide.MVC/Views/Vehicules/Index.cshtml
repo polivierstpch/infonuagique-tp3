@@ -1,0 +1,82 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IEnumerable<AutoRapide.MVC.Models.Vehicule>
+
+@{
+    ViewData["Title"] = "Index";
+    var prixDesc = @ViewBag.PrixDescendant is not null && (bool) ViewBag.PrixDescendant;
+}
+
+<h1>Faites de vos rêves une réalité avec RapidAuto!</h1>
+
+<p>
+    <a asp-action="Create">Afficher un nouveau véhicule</a>
+</p>
+<form asp-action="Index" method="get" asp-route-prixDescendant="@ViewBag.PrixDescendant">
+    <div class="form-actions no-color">
+        <p>
+            Trouvez votre voiture idéale: <input type="text" name="filtre" id="filtre" value="@ViewBag.FiltreActuel" />
+            <input type="hidden" name="prixDescendant" id="prixDescendant" value="@(ViewBag.PrixDescendant is not null ? prixDesc : "" )" />
+            <input type="submit" value="&#128269;" class="btn btn-default" /> |
+            <a asp-action="Index">Retour vers la liste complète</a> |
+            <a asp-action="Index" asp-route-prixDescendant="@(!prixDesc)">
+                @{
+                    @Html.Raw(prixDesc ? "Prix croissant" : "Prix décroissant")
+                }
+            </a>
+        </p>
+        @* TODO Filtre affichage seulement favoris?*@
+    </div>
+</form>
+
+<div class="indexVehicule">
+
+    @foreach (var item in Model)
+    {
+        <div class="appercuVehicule" onclick="location.href='@Url.Action("Details", "Vehicules",new {id = item.Id})'">
+            <div class="thumbnailVehicule">
+                @{
+                    //Image 1 par default
+                    var srcImage = item.Image1Url;
+
+                    if (item.Image1Url == null)
+                    {
+                        if (item.Image2Url == null)
+                        {
+                            <p>Image à venir</p>
+                        }
+                        else
+                        {
+                            srcImage = item.Image2Url;
+                        }
+                    }
+                    <img id="imgThumb" src="@srcImage" alt="Une erreur est survenue">
+                }
+            </div>
+            <div class="resumeVehicule">
+                <div>
+                    <h3>@Html.DisplayFor(modelItem => item.Constructeur) @Html.DisplayFor(modelItem => item.Modele)</h3>
+                </div>
+                <div>
+                    <h4>@Html.DisplayFor(modelItem => item.AnneeFabrication)</h4>
+                </div>
+                <div>
+                    @{
+                        bool estDisponible = item.EstDisponible;
+                        string txtPrixClass = "";
+
+                        if (!estDisponible)
+                        {
+                            txtPrixClass = "nonDisponible";
+                            <p class="txtAvertissement">Ce vehicule n'est plus disponible</p>
+                        }
+                    }
+                </div>
+                <div>
+                    <h5 class="@txtPrixClass">@Html.DisplayFor(modelItem => item.Prix)&#36;</h5>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

@@ -1,0 +1,46 @@
+﻿@model AutoRapide.MVC.Models.Vehicule
+@{
+    ViewData["Title"] = "Commande";
+}
+<div>
+    <h2>Commander</h2>
+    <p>
+        <h3>
+            @Html.DisplayNameFor(m => m.Description)
+        </h3>
+        <hr/>
+        <p>
+            @Html.DisplayFor(m => m.Description)
+        </p>
+    </p>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Constructeur" />
+                <input type="hidden" asp-for="Modele" />
+                <input type="hidden" asp-for="Type" />
+                <input type="hidden" asp-for="AnneeFabrication" />
+                <input type="hidden" asp-for="NombreSiege" />
+                <input type="hidden" asp-for="NIV" />
+                <input type="hidden" asp-for="Couleur" />
+                <input type="hidden" asp-for="Image1Url" />
+                <input type="hidden" asp-for="Image2Url" />
+                <input type="hidden" asp-for="Description" />
+                <input type="hidden" asp-for="Prix" />
+                <input type="hidden" asp-for="EstDisponible" />
+                <label for="codeUsager" class="form-label">Code usager</label>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="codeUsager" name="codeUsager"/>
+                    @if (ViewBag.Erreur is not null)
+                    {
+                        <span class="text-danger">@ViewBag.Erreur</span>
+                    }
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Commander" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

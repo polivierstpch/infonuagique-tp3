@@ -1,0 +1,126 @@
+﻿@model AutoRapide.MVC.Models.Vehicule
+
+@{
+    ViewData["Title"] = "Fiche detaillee";
+    var listeImages = new List<string> { Model.Image1Url, Model.Image2Url };
+}
+
+<div>
+    <div class="containerImages">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+               @{ 
+                   var premier = true;
+                }
+                @for (int idx = 0; idx < listeImages.Count; idx += 1)
+                {
+                     <button type="button"
+                            data-bs-target="#carouselExampleControls"
+                            data-bs-slide-to="@idx"
+                            class="@(premier ? Html.Raw("active") : Html.Raw("")) bg-primary"
+                            @(premier ? Html.Raw("aria-current=\"true\"") : Html.Raw(""))
+                            aria-label="Slide @(idx + 1)"></button>
+                    premier = false;
+                }
+            </div>
+            <div class="carousel-inner">
+                @{
+                    premier = true;
+                }
+                @foreach (var item in listeImages)
+                {
+                    <div class="carousel-item @(premier ? Html.Raw("active") : Html.Raw(""))"
+                         data-bs-interval="10000">
+                        <img class="d-block w-100" src="@item" alt="Image du véhicule">
+                    </div>
+                    premier = false;
+                }
+            </div>
+        </div>
+    </div>
+
+    <h1>@Html.DisplayFor(model => model.Constructeur) @Html.DisplayFor(model => model.Modele) @Html.DisplayFor(model => model.AnneeFabrication) </h1>
+
+    <div class="headerVehicule">
+
+        @{
+            bool btnDisabled = false;
+            string txtPrixClass = "";
+            string btnCommandeId = "";
+
+            if (!Model.EstDisponible)
+            {
+                btnDisabled = true;
+                btnCommandeId = "btnDisabled";
+                txtPrixClass = "nonDisponible";
+                <div>
+                    <h3 class="txtAvertissement">Ce vehicule n'est plus disponible</h3>
+                </div>
+            }
+        }
+
+        <div>
+            <a asp-controller="Commandes" asp-action="Create" class="btn btn-primary" asp-route-id="@ViewBag.IdVehicule" disabled="@btnDisabled">Commander</a>
+            @{
+                string messageFavori;
+                string classBouton;
+                bool ajout; 
+                if (ViewBag.IsFavori)
+                {
+                    messageFavori = "Retirer des favoris";
+                    classBouton = "btn-danger";
+                    ajout = false;
+                }
+                else
+                {
+                    messageFavori = "Ajouter aux favoris";
+                    classBouton = "btn-success";
+                    ajout = true;
+                }
+                <a asp-controller="Favoris" asp-action="Ajouter" asp-route-idvehicule="@Model.Id" asp-route-ajout="@ajout"><button class="btn @classBouton">@messageFavori</button></a>
+            }
+            
+        </div>
+    </div>
+    <div>
+        <h3 class="@txtPrixClass">@Html.DisplayFor(model => model.Prix)&#36;</h3>
+    </div>
+    <hr />
+    <h4>Informations additionnelles:</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreSiege)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NombreSiege)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Couleur)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Couleur)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NIV)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NIV)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Retour vers la liste des vehicules</a>
+</div>
