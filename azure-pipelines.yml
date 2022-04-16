@@ -9,6 +9,7 @@ resources:
 - repo: self
 
 variables:
+  serviceConnection: 'acr-dockerconnection'
   tag: '$(Build.BuildId)'
 
 stages:
@@ -22,8 +23,9 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'acr-dockerconnection'
+        containerRegistry: '$(serviceConnection)'
         command: 'buildAndPush'
+        buildContext: '$(Build.SourcesDirectory)/AutoRapide/src'
         Dockerfile: '$(Build.SourcesDirectory)/AutoRapide/src/AutoRapide.Vehicules.API/Dockerfile'
         tags: |
           $(tag)
