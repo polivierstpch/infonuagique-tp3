@@ -1,0 +1,39 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  azureSub: 'az-serviceconnection'
+  appName: 'fichiers-znjoyxcpnl5uq'
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    arguments: '--configuration Release --output publish_output'
+    projects: '*Fichiers*.csproj'
+    publishWebProjects: false
+    modifyOutputPath: false
+    zipAfterPublish: false
+- task: ArchiveFiles@2
+  displayName: "Archive files"
+  inputs:
+    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output"
+    includeRootFolder: false
+    archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+    artifactName: 'drop'
+
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: $(azureSub)
+    appType: 'functionApp'
+    appName: $(appName)
+    package: '$(System.DefaultWorkingDirectory)/**/*Fichiers*.zip'
+    appSettings: '-FUNCTIONS_WORKER_RUNTIME dotnet-isolated'
+    runtimeStack: 'DOTNET-ISOLATED|6.0'
+    deploymentMethod: 'runFromPackage'
