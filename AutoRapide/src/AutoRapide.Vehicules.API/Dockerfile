@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/AutoRapide.Vehicules.API/AutoRapide.Vehicules.API.csproj", "src/AutoRapide.Vehicules.API/"]
-RUN dotnet restore "src/AutoRapide.Vehicules.API/AutoRapide.Vehicules.API.csproj"
+COPY ["AutoRapide.Vehicules.API/AutoRapide.Vehicules.API.csproj", "AutoRapide.Vehicules.API/"]
+RUN dotnet restore "AutoRapide.Vehicules.API/AutoRapide.Vehicules.API.csproj"
 COPY . .
-WORKDIR "/src/src/AutoRapide.Vehicules.API"
+WORKDIR "/src/AutoRapide.Vehicules.API"
 RUN dotnet build "AutoRapide.Vehicules.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
