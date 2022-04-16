@@ -10,20 +10,22 @@ resources:
 
 variables:
   serviceConnection: 'acr-dockerconnection'
+  imageName: 'vehiculesapi'
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
-  displayName: Build image
+- stage: Build and Push
+  displayName: Build and push image
   jobs:
-  - job: Build
-    displayName: Build
+  - job: Build and push
+    displayName: Build and push
     pool:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
       inputs:
         containerRegistry: '$(serviceConnection)'
+        repository: '$(imageName)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/AutoRapide/src/Dockerfile'
         tags: |
