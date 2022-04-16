@@ -21,10 +21,9 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
       inputs:
-        containerRegistry: 'acr-dockeronnection'
-        command: buildAndPush
-        dockerfile: '$(Build.SourcesDirectory)/AutoRapide/src/AutoRapide.Vehicules.API/Dockerfile'
+        containerRegistry: 'acr-dockerconnection'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/AutoRapide/src/AutoRapide.Vehicules.API/Dockerfile'
         tags: |
           $(tag)
