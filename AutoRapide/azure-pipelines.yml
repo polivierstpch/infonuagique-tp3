@@ -25,6 +25,6 @@ stages:
       inputs:
         containerRegistry: '$(serviceConnection)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/AutoRapide/src/AutoRapide.Vehicules.API/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/AutoRapide/src/Dockerfile'
         tags: |
           $(tag)
